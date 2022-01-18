@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: pi
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
