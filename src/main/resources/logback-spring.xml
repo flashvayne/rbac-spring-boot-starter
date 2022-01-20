@@ -4,6 +4,8 @@
     <contextName>${applicationName}</contextName>
     <property name="log.path" value="log" />
     <property name="log.maxHistory" value="60" />
+    <property name="log.maxFileSize" value="100MB" />
+    <property name="log.totalSizeCap" value="20GB" />
     <property name="log.colorPattern" value="%magenta(%d{yyyy-MM-dd HH:mm:ss} %contextName) %highlight(%-5level) %yellow(%thread) %green(%logger) %msg%n"/>
     <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss} %contextName %-5level %thread %logger %msg%n"/>
 
@@ -13,24 +15,24 @@
         </encoder>
     </appender>
 
-    <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+    <appender name="file_all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <MaxHistory>${log.maxHistory}</MaxHistory>
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
     </appender>
 
     <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+            <maxFileSize>${log.maxFileSize}</maxFileSize>
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -47,7 +49,7 @@
     </root>
 
     <root level="info">
-        <appender-ref ref="file_info" />
+        <appender-ref ref="file_all" />
         <appender-ref ref="file_error" />
     </root>
 </configuration>
