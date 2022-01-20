@@ -1,5 +1,6 @@
 package com.github.flashvayne.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
  * @author flashvayne
  */
 @Data
+@AllArgsConstructor
 public class TokenUserInfo {
 
     private String token;

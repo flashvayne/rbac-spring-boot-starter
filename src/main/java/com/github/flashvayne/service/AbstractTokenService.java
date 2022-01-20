@@ -1,11 +1,13 @@
-package com.github.flashvayne.utils;
+package com.github.flashvayne.service;
 
+import com.github.flashvayne.dto.AuthUserDTO;
 import com.github.flashvayne.dto.TokenUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.Duration;
+import java.util.Set;
 
 /**
  * Token抽象工具类
@@ -13,26 +15,27 @@ import java.time.Duration;
  * @author flashvayne
  */
 @Slf4j
-public abstract class AbstractTokenUtils {
+public abstract class AbstractTokenService {
 
     private Integer TOKEN_EXPIRE_TIME = 7200;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public String generateToken(TokenUserInfo tokenUserInfo) {
-        String token = generateTokenString(tokenUserInfo);
+    public TokenUserInfo generateTokenUserInfo(AuthUserDTO authUserDTO, Set<String> urls) {
+        String token = generateTokenString(authUserDTO);
+        TokenUserInfo tokenUserInfo = new TokenUserInfo(token,authUserDTO,urls);
         try {
-            redisTemplate.opsForValue().set(token,tokenUserInfo, Duration.ofSeconds(TOKEN_EXPIRE_TIME));
+            redisTemplate.opsForValue().set(token,authUserDTO, Duration.ofSeconds(TOKEN_EXPIRE_TIME));
             log.info("generateToken: {}", token);
-            return token;
+            return tokenUserInfo;
         } catch (Exception e) {
             log.error("生成token异常",e);
             return null;
         }
     }
 
-    abstract String generateTokenString(TokenUserInfo tokenUserInfo);
+    public abstract String generateTokenString(AuthUserDTO authUserDTO);
 
     public boolean refreshToken(String token) {
         try {

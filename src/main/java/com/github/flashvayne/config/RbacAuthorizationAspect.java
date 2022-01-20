@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Aspect
 @Component
-public class RbacAuthenticationAspect {
+public class RbacAuthorizationAspect {
 
-    @Pointcut(value = "@annotation(com.github.flashvayne.config.RbacAuthentication)")
+    @Pointcut(value = "@annotation(com.github.flashvayne.config.RbacAuthorization)")
     public void pointcut() {}
 
     @Around("pointcut()")

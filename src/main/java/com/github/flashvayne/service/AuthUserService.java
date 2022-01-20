@@ -11,7 +11,7 @@ public interface AuthUserService {
 
     boolean authentication(String userId,String password);
 
-    TokenUserInfo getTokenUserInfo(String userId);
+    TokenUserInfo generateTokenUserInfo(String userId);
 
     boolean passwordVerification(String originalPassword,String providedPassword);
 }

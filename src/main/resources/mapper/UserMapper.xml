@@ -8,8 +8,22 @@
         select password from rbac_user
         where user_id = #{userId}
     </select>
-    <select id="selectUser" resultType="com.github.flashvayne.dto.AuthUserDTO">
 
+    <select id="selectUser" resultType="com.github.flashvayne.dto.AuthUserDTO">
+        select user_id,name,status,mobile,email from rbac_user
+        where use_id = #{userId}
+    </select>
+
+    <select id="selectRole" resultType="com.github.flashvayne.dto.AuthRoleDTO">
+        select id,name,desc from rbac_role
+        where id = #{roleId}
+    </select>
+
+    <select id="selectResource" resultType="com.github.flashvayne.dto.AuthResourceDTO">
+        select B.id,B.type,B.name,B.url from rbac_role_resource A
+                                                 inner join rbac_resource B
+                                                            on A.resource_id = B.id
+        where role_id = #{roleId}
     </select>
 
 </mapper>
