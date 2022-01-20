@@ -9,6 +9,9 @@ import com.github.flashvayne.dto.TokenUserInfo;
  */
 public interface AuthUserService {
 
+    boolean authentication(String userId,String password);
+
     TokenUserInfo getTokenUserInfo(String userId);
 
+    boolean passwordVerification(String originalPassword,String providedPassword);
 }

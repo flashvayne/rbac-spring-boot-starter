@@ -1,5 +1,6 @@
 package com.github.flashvayne.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class AuthUserDTO {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**
