@@ -5,6 +5,8 @@ Source Server         : pi
 Source Server Version : 80025
 Source Host           : 192.168.1.100:3306
 Source Database       : rbac
+git config --global user.name "flashvayne"
+git config --global user.email flashvayne@gmail.com
 
 Target Server Type    : MYSQL
 Target Server Version : 80025
