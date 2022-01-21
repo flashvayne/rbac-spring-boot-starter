@@ -1,9 +1,9 @@
 package com.github.flashvayne.service;
 
-import com.github.flashvayne.dto.TokenUserInfo;
+import com.github.flashvayne.dto.RbacTokenInfo;
 
 /**
- * 用户信息服务
+ * 用户信息服务接口
  *
  * @author flashvayne
  */
@@ -11,7 +11,7 @@ public interface AuthUserService {
 
     boolean authentication(String userId,String password);
 
-    TokenUserInfo generateTokenUserInfo(String userId);
+    RbacTokenInfo generateTokenInfo(String userId);
 
     boolean passwordVerification(String originalPassword,String providedPassword);
 }

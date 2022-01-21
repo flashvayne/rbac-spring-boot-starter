@@ -3,8 +3,8 @@ package com.github.flashvayne.service.impl;
 import com.github.flashvayne.dto.AuthResourceDTO;
 import com.github.flashvayne.dto.AuthRoleDTO;
 import com.github.flashvayne.dto.AuthUserDTO;
-import com.github.flashvayne.dto.TokenUserInfo;
-import com.github.flashvayne.mapper.UserMapper;
+import com.github.flashvayne.dto.RbacTokenInfo;
+import com.github.flashvayne.mapper.BaseRbacMapper;
 import com.github.flashvayne.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,7 @@ import java.util.Set;
 
 /**
  * 用户信息服务默认实现
+ * 可通过继承此类或实现AuthUserService接口，来重写用户信息相关功能
  *
  * @author flashvayne
  */
@@ -22,7 +23,7 @@ import java.util.Set;
 public class DefaultAuthUserServiceImpl implements AuthUserService {
 
     @Autowired
-    private UserMapper userMapper;
+    private BaseRbacMapper userMapper;
 
     @Autowired
     private DefaultTokenServiceImpl tokenService;
@@ -34,20 +35,19 @@ public class DefaultAuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
-    public TokenUserInfo generateTokenUserInfo(String userId) {
+    public RbacTokenInfo generateTokenInfo(String userId) {
         AuthUserDTO authUserDTO = userMapper.selectUser(userId);
         List<AuthRoleDTO> authRoleDTOs = userMapper.selectRole(userId);
         authUserDTO.setAuthRoleDTOList(authRoleDTOs);
-        Set<String> urls = new HashSet<>();
+        Set<String> resources = new HashSet<>();
         for (AuthRoleDTO authRoleDTO : authRoleDTOs){
             List<AuthResourceDTO> authResourceDTOs = userMapper.selectResource(authRoleDTO.getId());
             authRoleDTO.setAuthResourceDTOList(authResourceDTOs);
             for (AuthResourceDTO authResourceDTO : authResourceDTOs){
-                urls.add(authResourceDTO.getUrl());
+                resources.add(authResourceDTO.getUrl());
             }
         }
-        TokenUserInfo tokenUserInfo = tokenService.generateTokenUserInfo(authUserDTO,urls);
-        return tokenUserInfo;
+        return tokenService.generateTokenInfo(authUserDTO,resources);
     }
 
     @Override
