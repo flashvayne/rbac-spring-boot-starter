@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.flashvayne.mapper.UserMapper">
+<!--BaseRbacMapper基于MySQL数据源的默认实现-->
+<mapper namespace="com.github.flashvayne.mapper.BaseRbacMapper">
 
     <select id="selectPassword" resultType="java.lang.String">
         select password from rbac_user
@@ -10,13 +11,15 @@
     </select>
 
     <select id="selectUser" resultType="com.github.flashvayne.dto.AuthUserDTO">
-        select user_id,name,status,mobile,email from rbac_user
-        where use_id = #{userId}
+        select user_id userId,name,status,mobile,email from rbac_user
+        where user_id = #{userId}
     </select>
 
     <select id="selectRole" resultType="com.github.flashvayne.dto.AuthRoleDTO">
-        select id,name,desc from rbac_role
-        where id = #{roleId}
+        select B.id,name,`desc` from rbac_user_role A
+        inner join rbac_role B
+        ON A.role_id = b.id
+        where A.user_id = #{userId}
     </select>
 
     <select id="selectResource" resultType="com.github.flashvayne.dto.AuthResourceDTO">
