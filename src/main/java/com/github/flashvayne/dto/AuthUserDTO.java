@@ -23,12 +23,6 @@ public class AuthUserDTO {
     private String name;
 
     /**
-     * 密码
-     */
-    @JsonIgnore
-    private String password;
-
-    /**
      * 状态 0.正常 1.禁用
      */
     private Byte status;

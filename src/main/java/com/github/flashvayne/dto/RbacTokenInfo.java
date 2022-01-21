@@ -3,20 +3,21 @@ package com.github.flashvayne.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
- * Token保存的信息
+ * RbacToken信息
  *
  * @author flashvayne
  */
 @Data
 @AllArgsConstructor
-public class TokenUserInfo {
+public class RbacTokenInfo implements Serializable {
 
     private String token;
     private AuthUserDTO authUserDTO;
 
-    //Set集合冗余用户拥有的资源 方便高效鉴权
-    private Set<String> urls;
+    //Set集合冗余用户拥有的资源 通过contains方法高效鉴权
+    private Set<String> resources;
 }
