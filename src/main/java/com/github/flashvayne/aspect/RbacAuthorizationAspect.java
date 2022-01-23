@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Rbac鉴权AOP
  * 拦截有@RbacAuthorization注解的方法进行认证和鉴权
+ * 可通过继承此类修改拦截器的实现
  *
  * @author flashvayne
  */
