@@ -1,4 +1,4 @@
-package com.github.flashvayne.dto;
+package com.github.flashvayne.rbac.dto;
 
 import lombok.Data;
 

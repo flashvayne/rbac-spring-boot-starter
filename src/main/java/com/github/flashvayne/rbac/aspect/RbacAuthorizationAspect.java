@@ -1,9 +1,9 @@
-package com.github.flashvayne.aspect;
+package com.github.flashvayne.rbac.aspect;
 
-import com.github.flashvayne.dto.RbacTokenInfo;
-import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.RbacTokenService;
-import com.github.flashvayne.utils.AuthUserUtils;
+import com.github.flashvayne.rbac.dto.RbacTokenInfo;
+import com.github.flashvayne.rbac.property.RbacProperties;
+import com.github.flashvayne.rbac.service.RbacTokenService;
+import com.github.flashvayne.rbac.utils.AuthUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * Rbac鉴权AOP
@@ -38,15 +39,14 @@ public class RbacAuthorizationAspect {
     @Autowired
     private RbacProperties rbacProperties;
 
-    @Pointcut(value = "@annotation(com.github.flashvayne.aspect.RbacAuthorization)")
+    @Pointcut(value = "@annotation(com.github.flashvayne.rbac.aspect.RbacAuthorization)")
     public void pointcut() {}
 
     @Around("pointcut()")
     public Object interceptor(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
+        HttpServletRequest request = Objects.requireNonNull(servletRequestAttributes).getRequest();
         HttpServletResponse response = servletRequestAttributes.getResponse();
-        //todo
         String token = getToken(request);
         if(StringUtils.isBlank(token)){
             log.warn("未获取到token，身份认证失败");

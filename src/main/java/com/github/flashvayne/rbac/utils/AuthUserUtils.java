@@ -1,6 +1,6 @@
-package com.github.flashvayne.utils;
+package com.github.flashvayne.rbac.utils;
 
-import com.github.flashvayne.dto.RbacTokenInfo;
+import com.github.flashvayne.rbac.dto.RbacTokenInfo;
 
 /**
  * 用户信息工具类

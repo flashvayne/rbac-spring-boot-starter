@@ -1,8 +1,8 @@
-package com.github.flashvayne.mapper;
+package com.github.flashvayne.rbac.mapper;
 
-import com.github.flashvayne.dto.AuthResourceDTO;
-import com.github.flashvayne.dto.AuthRoleDTO;
-import com.github.flashvayne.dto.AuthUserDTO;
+import com.github.flashvayne.rbac.dto.AuthResourceDTO;
+import com.github.flashvayne.rbac.dto.AuthRoleDTO;
+import com.github.flashvayne.rbac.dto.AuthUserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

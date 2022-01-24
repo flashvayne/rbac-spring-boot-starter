@@ -1,11 +1,11 @@
-package com.github.flashvayne.autoconfig;
+package com.github.flashvayne.rbac.autoconfig;
 
-import com.github.flashvayne.aspect.RbacAuthorizationAspect;
-import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.RbacAuthUserService;
-import com.github.flashvayne.service.RbacTokenService;
-import com.github.flashvayne.service.impl.DefaultRbacAuthUserServiceImpl;
-import com.github.flashvayne.service.impl.DefaultRbacTokenServiceImpl;
+import com.github.flashvayne.rbac.aspect.RbacAuthorizationAspect;
+import com.github.flashvayne.rbac.property.RbacProperties;
+import com.github.flashvayne.rbac.service.RbacAuthUserService;
+import com.github.flashvayne.rbac.service.RbacTokenService;
+import com.github.flashvayne.rbac.service.impl.DefaultRbacTokenServiceImpl;
+import com.github.flashvayne.rbac.service.impl.DefaultRbacAuthUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -42,23 +42,20 @@ public class RbacAutoConfiguration {
     @DependsOn("rbacTokenService")
     @ConditionalOnMissingBean(RbacAuthorizationAspect.class)
     public RbacAuthorizationAspect rbacAuthorizationAspect(){
-        RbacAuthorizationAspect rbacAuthorizationAspect = new RbacAuthorizationAspect();
-        return rbacAuthorizationAspect;
+        return new RbacAuthorizationAspect();
     }
 
     @Bean
     @DependsOn("rbacTokenService")
     @ConditionalOnMissingBean(RbacAuthUserService.class)
     public RbacAuthUserService rbacAuthUserService(){
-        RbacAuthUserService rbacAuthUserService = new DefaultRbacAuthUserServiceImpl();
-        return rbacAuthUserService;
+        return new DefaultRbacAuthUserServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean(RbacTokenService.class)
     public RbacTokenService rbacTokenService(){
-        RbacTokenService rbacTokenService = new DefaultRbacTokenServiceImpl(rbacProperties);
-        return rbacTokenService;
+        return new DefaultRbacTokenServiceImpl(rbacProperties);
     }
 
 }

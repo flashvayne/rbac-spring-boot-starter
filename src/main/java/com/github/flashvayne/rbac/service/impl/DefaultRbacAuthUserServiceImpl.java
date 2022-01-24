@@ -1,12 +1,12 @@
-package com.github.flashvayne.service.impl;
+package com.github.flashvayne.rbac.service.impl;
 
-import com.github.flashvayne.dto.AuthResourceDTO;
-import com.github.flashvayne.dto.AuthRoleDTO;
-import com.github.flashvayne.dto.AuthUserDTO;
-import com.github.flashvayne.dto.RbacTokenInfo;
-import com.github.flashvayne.mapper.BaseRbacMapper;
-import com.github.flashvayne.service.RbacAuthUserService;
-import com.github.flashvayne.service.RbacTokenService;
+import com.github.flashvayne.rbac.dto.AuthResourceDTO;
+import com.github.flashvayne.rbac.dto.AuthRoleDTO;
+import com.github.flashvayne.rbac.dto.AuthUserDTO;
+import com.github.flashvayne.rbac.dto.RbacTokenInfo;
+import com.github.flashvayne.rbac.mapper.BaseRbacMapper;
+import com.github.flashvayne.rbac.service.RbacAuthUserService;
+import com.github.flashvayne.rbac.service.RbacTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

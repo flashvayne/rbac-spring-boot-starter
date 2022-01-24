@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration =\
-com.github.flashvayne.autoconfig.RbacAutoConfiguration
+com.github.flashvayne.rbac.autoconfig.RbacAutoConfiguration

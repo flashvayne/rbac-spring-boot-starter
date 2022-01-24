@@ -1,4 +1,4 @@
-package com.github.flashvayne.aspect;
+package com.github.flashvayne.rbac.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

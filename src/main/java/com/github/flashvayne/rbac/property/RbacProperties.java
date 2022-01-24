@@ -1,4 +1,4 @@
-package com.github.flashvayne.property;
+package com.github.flashvayne.rbac.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

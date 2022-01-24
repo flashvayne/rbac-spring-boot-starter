@@ -1,10 +1,10 @@
-package com.github.flashvayne.service.impl;
+package com.github.flashvayne.rbac.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.flashvayne.dto.AuthUserDTO;
-import com.github.flashvayne.dto.RbacTokenInfo;
-import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.RbacTokenService;
+import com.github.flashvayne.rbac.dto.AuthUserDTO;
+import com.github.flashvayne.rbac.dto.RbacTokenInfo;
+import com.github.flashvayne.rbac.property.RbacProperties;
+import com.github.flashvayne.rbac.service.RbacTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

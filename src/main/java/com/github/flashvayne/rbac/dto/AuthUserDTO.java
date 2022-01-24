@@ -1,6 +1,5 @@
-package com.github.flashvayne.dto;
+package com.github.flashvayne.rbac.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.List;
