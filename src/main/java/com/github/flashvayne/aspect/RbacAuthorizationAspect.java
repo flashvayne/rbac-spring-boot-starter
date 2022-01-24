@@ -2,7 +2,7 @@ package com.github.flashvayne.aspect;
 
 import com.github.flashvayne.dto.RbacTokenInfo;
 import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.TokenService;
+import com.github.flashvayne.service.RbacTokenService;
 import com.github.flashvayne.utils.AuthUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RbacAuthorizationAspect {
 
     @Autowired
-    private TokenService tokenService;
+    private RbacTokenService tokenService;
 
     @Autowired
     private RbacProperties rbacProperties;

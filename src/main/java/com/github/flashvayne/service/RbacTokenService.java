@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author flashvayne
  */
-public interface TokenService {
+public interface RbacTokenService {
 
     public RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO, Set<String> resources);
 

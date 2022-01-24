@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.flashvayne.dto.AuthUserDTO;
 import com.github.flashvayne.dto.RbacTokenInfo;
 import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.TokenService;
+import com.github.flashvayne.service.RbacTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,14 +23,14 @@ import java.util.UUID;
 @Slf4j
 @Service
 @SuppressWarnings("unchecked")
-public class DefaultTokenServiceImpl implements TokenService {
+public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     @Autowired
     private RedisTemplate redisTemplate;
 
     private final RbacProperties rbacProperties;
 
-    public DefaultTokenServiceImpl(RbacProperties rbacProperties){
+    public DefaultRbacTokenServiceImpl(RbacProperties rbacProperties){
         this.rbacProperties = rbacProperties;
     }
 

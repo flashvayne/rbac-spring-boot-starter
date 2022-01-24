@@ -7,7 +7,7 @@ import com.github.flashvayne.dto.RbacTokenInfo;
  *
  * @author flashvayne
  */
-public interface AuthUserService {
+public interface RbacAuthUserService {
 
     boolean authentication(String userId,String password);
 

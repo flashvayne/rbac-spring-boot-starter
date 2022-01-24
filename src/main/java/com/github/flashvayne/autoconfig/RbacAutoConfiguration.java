@@ -2,10 +2,10 @@ package com.github.flashvayne.autoconfig;
 
 import com.github.flashvayne.aspect.RbacAuthorizationAspect;
 import com.github.flashvayne.property.RbacProperties;
-import com.github.flashvayne.service.AuthUserService;
-import com.github.flashvayne.service.TokenService;
-import com.github.flashvayne.service.impl.DefaultAuthUserServiceImpl;
-import com.github.flashvayne.service.impl.DefaultTokenServiceImpl;
+import com.github.flashvayne.service.RbacAuthUserService;
+import com.github.flashvayne.service.RbacTokenService;
+import com.github.flashvayne.service.impl.DefaultRbacAuthUserServiceImpl;
+import com.github.flashvayne.service.impl.DefaultRbacTokenServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 /**
  * Rbac自动装配
@@ -38,24 +39,26 @@ public class RbacAutoConfiguration {
     private RbacProperties rbacProperties;
 
     @Bean
+    @DependsOn("rbacTokenService")
     @ConditionalOnMissingBean(RbacAuthorizationAspect.class)
-    public RbacAuthorizationAspect RbacAuthorizationAspect(){
+    public RbacAuthorizationAspect rbacAuthorizationAspect(){
         RbacAuthorizationAspect rbacAuthorizationAspect = new RbacAuthorizationAspect();
         return rbacAuthorizationAspect;
     }
 
     @Bean
-    @ConditionalOnMissingBean(AuthUserService.class)
-    public AuthUserService AuthUserService(){
-        AuthUserService authUserService = new DefaultAuthUserServiceImpl();
-        return authUserService;
+    @DependsOn("rbacTokenService")
+    @ConditionalOnMissingBean(RbacAuthUserService.class)
+    public RbacAuthUserService rbacAuthUserService(){
+        RbacAuthUserService rbacAuthUserService = new DefaultRbacAuthUserServiceImpl();
+        return rbacAuthUserService;
     }
 
     @Bean
-    @ConditionalOnMissingBean(DefaultTokenServiceImpl.class)
-    public TokenService TokenService(){
-        TokenService tokenService = new DefaultTokenServiceImpl(rbacProperties);
-        return tokenService;
+    @ConditionalOnMissingBean(RbacTokenService.class)
+    public RbacTokenService rbacTokenService(){
+        RbacTokenService rbacTokenService = new DefaultRbacTokenServiceImpl(rbacProperties);
+        return rbacTokenService;
     }
 
 }
