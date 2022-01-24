@@ -18,6 +18,8 @@ public class RbacProperties {
     //token属性名
     private String tokenName = "authorization";
 
+    private String redisKeyPrefix = "rbac:";
+
     public Long getTokenExpireTime() {
         return tokenExpireTime;
     }
@@ -32,5 +34,13 @@ public class RbacProperties {
 
     public void setTokenName(String tokenName) {
         this.tokenName = tokenName;
+    }
+
+    public String getRedisKeyPrefix() {
+        return redisKeyPrefix;
+    }
+
+    public void setRedisKeyPrefix(String redisKeyPrefix) {
+        this.redisKeyPrefix = redisKeyPrefix;
     }
 }
