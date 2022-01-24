@@ -26,9 +26,9 @@ import java.util.UUID;
 public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    protected RedisTemplate redisTemplate;
 
-    private final RbacProperties rbacProperties;
+    protected final RbacProperties rbacProperties;
 
     public DefaultRbacTokenServiceImpl(RbacProperties rbacProperties){
         this.rbacProperties = rbacProperties;
@@ -38,7 +38,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
         String token = generateTokenString(authUserDTO);
         RbacTokenInfo tokenInfo = new RbacTokenInfo(token,authUserDTO,resources);
         try {
-            redisTemplate.opsForValue().set(token, JSONObject.toJSONString(tokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
+            redisTemplate.opsForValue().set(rbacProperties.getRedisKeyPrefix()+token, JSONObject.toJSONString(tokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
             log.info("generateToken: {},userInfo: {}", token,tokenInfo);
             return tokenInfo;
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     public boolean refreshToken(String token) {
         try {
-            if(redisTemplate.expire(token, Duration.ofSeconds(rbacProperties.getTokenExpireTime()))){
+            if(redisTemplate.expire(rbacProperties.getRedisKeyPrefix()+token, Duration.ofSeconds(rbacProperties.getTokenExpireTime()))){
                 log.info("refreshToken: {}", token);
                 return true;
             }
@@ -61,7 +61,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     public boolean removeToken(String token) {
         try {
-            if(redisTemplate.delete(token)){
+            if(redisTemplate.delete(rbacProperties.getRedisKeyPrefix()+token)){
                 log.info("removeToken: {}", token);
                 return true;
             }
@@ -73,7 +73,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     @Override
     public RbacTokenInfo decodeTokenInfo(String token) {
-        String tokenInfoJson = (String) redisTemplate.opsForValue().get(token);
+        String tokenInfoJson = (String) redisTemplate.opsForValue().get(rbacProperties.getRedisKeyPrefix()+token);
         RbacTokenInfo tokenInfo = JSONObject.parseObject(tokenInfoJson, RbacTokenInfo.class);
         log.info("decodeTokenInfo: {}",token);
         return tokenInfo;
