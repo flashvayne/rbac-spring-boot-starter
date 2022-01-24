@@ -75,7 +75,7 @@ public interface TestRbacMapper extends BaseRbacMapper {
 ```
 
 # Demo项目：
-Rbac-Demo
+[Rbac-Demo](https://github.com/flashvayne/rbac-demo)
 
 # 扩展性：
 本组件使用@ConditionalOnMissingBean条件注解进行自动装配，所以开发者可直接重写本组件中的Bean并注入容器实现功能的重构。
