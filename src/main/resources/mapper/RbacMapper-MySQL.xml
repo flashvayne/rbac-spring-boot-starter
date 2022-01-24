@@ -18,7 +18,7 @@
     <select id="selectRole" resultType="com.github.flashvayne.rbac.dto.AuthRoleDTO">
         select B.id,name,`desc` from rbac_user_role A
         inner join rbac_role B
-        ON A.role_id = b.id
+        ON A.role_id = B.id
         where A.user_id = #{userId}
     </select>
 
