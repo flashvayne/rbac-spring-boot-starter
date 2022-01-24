@@ -38,7 +38,7 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
     log.info(testService.list(param1,param2));
 }
 ```
-如当前用户token不合法则返回Http 401 Forbidden.
+如当前用户token不合法则返回Http 401 Unauthorized.
 如token合法但不具有"/list"接口资源权限，则返回Http 403 Forbidden.
 
 
