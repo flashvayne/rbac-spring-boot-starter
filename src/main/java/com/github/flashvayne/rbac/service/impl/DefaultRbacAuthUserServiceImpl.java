@@ -24,10 +24,10 @@ import java.util.Set;
 public class DefaultRbacAuthUserServiceImpl implements RbacAuthUserService {
 
     @Autowired
-    private BaseRbacMapper userMapper;
+    protected BaseRbacMapper userMapper;
 
     @Autowired
-    private RbacTokenService tokenService;
+    protected RbacTokenService tokenService;
 
     @Override
     public boolean authentication(String userId, String password) {
