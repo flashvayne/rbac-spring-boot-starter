@@ -1,4 +1,4 @@
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-start/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-start)
 # rbac-spring-boot-starter
 
 基于RBAC (Resource-Based Access Control) 的用户资源权限管理轻量级组件
