@@ -1,6 +1,6 @@
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-start/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-start)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter)
 
-# rbac-spring-boot-start
+# rbac-spring-boot-starter
 
 基于RBAC (Resource-Based Access Control) 的用户资源权限管理轻量级组件
 
@@ -49,7 +49,7 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 ```pom
 <dependency>
     <groupId>io.github.flashvayne</groupId>
-    <artifactId>rbac-spring-boot-start</artifactId>
+    <artifactId>rbac-spring-boot-starter</artifactId>
     <version>1.0.1</version>
 </dependency>
 ```
