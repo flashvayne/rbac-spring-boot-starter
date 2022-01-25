@@ -1,4 +1,4 @@
-
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter)
 
 # rbac-spring-boot-starter
 
