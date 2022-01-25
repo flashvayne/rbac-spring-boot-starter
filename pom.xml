@@ -5,18 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.flashvayne</groupId>
-    <artifactId>rbac-spring-boot-start</artifactId>
-    <version>1.0.1</version>
+    <artifactId>rbac-spring-boot-starter</artifactId>
+    <version>2.0.0</version>
 
-
-    <name>rbac-spring-boot-start</name>
+    <name>rbac-spring-boot-starter</name>
     <description>基于RBAC (Resource-Based Access Control) 的用户资源权限管理组件</description>
-    <url>https://github.com/flashvayne/rbac-spring-boot-start</url>
+    <url>https://github.com/flashvayne/rbac-spring-boot-starter</url>
 
     <licenses>
         <license>
             <name>The MIT License (MIT)</name>
-            <url>https://github.com/flashvayne/rbac-spring-boot-start/blob/master/LICENSE</url>
+            <url>https://github.com/flashvayne/rbac-spring-boot-starter/blob/master/LICENSE</url>
         </license>
     </licenses>
 
@@ -28,9 +27,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com/flashvayne/rbac-spring-boot-start.git</connection>
-        <developerConnection>scm:git:git@github.com/flashvayne/rbac-spring-boot-start.git</developerConnection>
-        <url>git@github.com/flashvayne/rbac-spring-boot-start.git</url>
+        <connection>scm:git:git@github.com/flashvayne/rbac-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:git@github.com/flashvayne/rbac-spring-boot-starter.git</developerConnection>
+        <url>git@github.com/flashvayne/rbac-spring-boot-starter.git</url>
     </scm>
 
     <properties>
