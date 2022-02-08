@@ -1,8 +1,8 @@
 [![Maven central](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.flashvayne/rbac-spring-boot-starter)
 # rbac-spring-boot-starter
 
-基于RBAC (Resource-Based Access Control) 的用户资源权限管理轻量级组件
-
+基于RBAC (Resource-Based Access Control) 的用户资源权限管理轻量级组件  
+详情参照博客 [blog](https://blog.vayne.ink/2022/02/06/rbac-spring-boot-starter)
 # 使用说明：
 
 ## 1.登录/Token生成：
@@ -55,9 +55,10 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 2.配置项：
 ```yml
 rbac:
-  enable: true  #启动rbac-spring-boot-starter组件
-  tokenExpireTime: 7200  #Token过期时间
-  tokenName: auth  #request header中token的变量名
+  enable: true  #启动rbac-spring-boot-starter组件（默认false）
+  tokenExpireTime: 7200  #Token过期时间（默认7200s）
+  tokenName: authorization  #request header中token的变量名（默认false）
+  redisKeyPrefix: 'rbac:'  #token再redis中key的前缀（默认'rbac:'）
 spring:
   redis:  #配置Redis信息（本组件默认使用Redis作为Token存储的中间件）
     host: 127.0.0.1
@@ -88,6 +89,8 @@ public interface TestRbacMapper extends BaseRbacMapper {
 + 本项目使用Redis作为Token保存的中间件，此举是为了直接分布式多台机器共享Token，如开发者不需要多级部署，可重写Token服务相关功能，重写方法见上方章节“扩展性”
 
 # 作者信息
+flashvayne
+
 邮箱: flashvayne@gmail.com
 
 博客: https://blog.vayne.ink
