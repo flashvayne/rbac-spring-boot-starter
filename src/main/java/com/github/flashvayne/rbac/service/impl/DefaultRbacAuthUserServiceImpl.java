@@ -44,8 +44,13 @@ public class DefaultRbacAuthUserServiceImpl implements RbacAuthUserService {
         for (AuthRoleDTO authRoleDTO : authRoleDTOs){
             List<AuthResourceDTO> authResourceDTOs = userMapper.selectResource(authRoleDTO.getId());
             authRoleDTO.setAuthResourceDTOList(authResourceDTOs);
-            for (AuthResourceDTO authResourceDTO : authResourceDTOs){
-                resources.add(authResourceDTO.getUrl());
+            for(int i= 0;i<authResourceDTOs.size();i++){
+                AuthResourceDTO authResourceDTO = authResourceDTOs.get(i);
+                if(authResourceDTO.getType() == (byte)1){
+                    resources.add(authResourceDTO.getUrl());
+                    authResourceDTOs.remove(i);
+                    i--;
+                }
             }
         }
         return tokenService.generateTokenInfo(authUserDTO,resources);

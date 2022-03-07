@@ -1,5 +1,6 @@
 package com.github.flashvayne.rbac.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,5 +20,6 @@ public class RbacTokenInfo implements Serializable {
     private AuthUserDTO authUserDTO;
 
     //Set集合冗余用户拥有的资源 通过contains方法高效鉴权
+    @JsonIgnore
     private Set<String> resources;
 }
