@@ -2,7 +2,7 @@
 # rbac-spring-boot-starter
 
 基于RBAC (Resource-Based Access Control) 的用户资源权限管理轻量级组件  
-详情参照博客 [blog](https://blog.vayne.ink/2022/02/06/rbac-spring-boot-starter)
+详情参照博客 [blog](https://vayne.cc/2022/02/06/rbac-spring-boot-starter)
 # 使用说明：
 
 ## 1.登录/Token生成：
@@ -93,4 +93,4 @@ flashvayne
 
 邮箱: flashvayne@gmail.com
 
-博客: https://blog.vayne.ink
+博客: https://vayne.cc
