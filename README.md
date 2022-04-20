@@ -57,7 +57,7 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 rbac:
   enable: true  #启动rbac-spring-boot-starter组件（默认false）
   tokenExpireTime: 7200  #Token过期时间（默认7200s）
-  tokenName: authorization  #request header中token的变量名（默认false）
+  tokenName: authorization  #request header中token的变量名（默认authorization）
   redisKeyPrefix: 'rbac:'  #token再redis中key的前缀（默认'rbac:'）
 spring:
   redis:  #配置Redis信息（本组件默认使用Redis作为Token存储的中间件）
