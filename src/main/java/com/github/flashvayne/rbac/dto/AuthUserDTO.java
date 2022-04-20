@@ -36,5 +36,10 @@ public class AuthUserDTO {
      */
     private String email;
 
+    /**
+     * 附加属性（用户可存储自定义的额外属性）
+     */
+    private Object addition;
+
     private List<AuthRoleDTO> authRoleDTOList;
 }

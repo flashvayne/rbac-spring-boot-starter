@@ -34,9 +34,10 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
         this.rbacProperties = rbacProperties;
     }
 
+    @Override
     public RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO, Set<String> resources) {
         String token = generateTokenString(authUserDTO);
-        RbacTokenInfo tokenInfo = new RbacTokenInfo(token,authUserDTO,resources);
+        RbacTokenInfo tokenInfo = new RbacTokenInfo(token,authUserDTO,null,resources);
         try {
             redisTemplate.opsForValue().set(rbacProperties.getRedisKeyPrefix()+token, JSONObject.toJSONString(tokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
             log.info("generateToken: {},userInfo: {}", token,tokenInfo);
@@ -47,6 +48,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
         }
     }
 
+    @Override
     public boolean refreshToken(String token) {
         try {
             if(redisTemplate.expire(rbacProperties.getRedisKeyPrefix()+token, Duration.ofSeconds(rbacProperties.getTokenExpireTime()))){
@@ -59,6 +61,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
         return false;
     }
 
+    @Override
     public boolean removeToken(String token) {
         try {
             if(redisTemplate.delete(rbacProperties.getRedisKeyPrefix()+token)){

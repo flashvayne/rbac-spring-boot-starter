@@ -28,4 +28,9 @@ public class AuthResourceDTO {
      * 资源标识/地址
      */
     private String url;
+
+    /**
+     * 附加属性（用户可存储自定义的额外属性）
+     */
+    private Object addition;
 }

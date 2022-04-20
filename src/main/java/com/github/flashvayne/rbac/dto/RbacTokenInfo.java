@@ -19,6 +19,11 @@ public class RbacTokenInfo implements Serializable {
     private String token;
     private AuthUserDTO authUserDTO;
 
+    /**
+     * 附加属性（用户可存储自定义的额外属性）
+     */
+    private Object addition;
+
     //Set集合冗余用户拥有的资源 通过contains方法高效鉴权
     @JsonIgnore
     private Set<String> resources;
