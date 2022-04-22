@@ -1,6 +1,8 @@
 package com.github.flashvayne.rbac.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.flashvayne.rbac.dto.AuthResourceDTO;
+import com.github.flashvayne.rbac.dto.AuthRoleDTO;
 import com.github.flashvayne.rbac.dto.AuthUserDTO;
 import com.github.flashvayne.rbac.dto.RbacTokenInfo;
 import com.github.flashvayne.rbac.property.RbacProperties;
@@ -9,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.Duration;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Token服务默认实现
@@ -35,18 +37,43 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
     }
 
     @Override
-    public RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO, Set<String> resources) {
-        String token = generateTokenString(authUserDTO);
-        RbacTokenInfo tokenInfo = new RbacTokenInfo(token,authUserDTO,null,resources);
-        try {
-            redisTemplate.opsForValue().set(rbacProperties.getRedisKeyPrefix()+token, JSONObject.toJSONString(tokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
-            log.info("generateToken: {},userInfo: {}", token,tokenInfo);
-            return tokenInfo;
-        } catch (Exception e) {
-            log.error("生成token异常",e);
+    public RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO) {
+        if(authUserDTO == null){
             return null;
         }
+        Set<String> resources = new HashSet<>();
+        List<AuthRoleDTO> authRoleDTOs = authUserDTO.getAuthRoleDTOList();
+        if(!CollectionUtils.isEmpty(authRoleDTOs)){
+            for (AuthRoleDTO authRoleDTO : authRoleDTOs){
+                List<AuthResourceDTO> authResourceDTOs = authRoleDTO.getAuthResourceDTOList();
+                if(!CollectionUtils.isEmpty(authResourceDTOs)){
+                    for(int i= 0;i<authResourceDTOs.size();i++){
+                        AuthResourceDTO authResourceDTO = authResourceDTOs.get(i);
+                        if(authResourceDTO != null && authResourceDTO.getType() == (byte)1){
+                            resources.add(authResourceDTO.getUrl());
+                            authResourceDTOs.remove(i);
+                            i--;
+                        }
+                    }
+                }
+            }
+        }
+        return new RbacTokenInfo(generateTokenString(authUserDTO),authUserDTO,null,resources);
     }
+
+    @Override
+    public boolean doGenerateToken(RbacTokenInfo rbacTokenInfo) {
+        try {
+            redisTemplate.opsForValue().set(rbacProperties.getRedisKeyPrefix()+rbacTokenInfo.getToken(),
+                    JSONObject.toJSONString(rbacTokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
+            log.info("doGenerateToken success: {}", rbacTokenInfo);
+            return true;
+        } catch (Exception e) {
+            log.error("doGenerateToken: ",e);
+            return false;
+        }
+    }
+
 
     @Override
     public boolean refreshToken(String token) {
@@ -56,7 +83,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
                 return true;
             }
         } catch (Exception e) {
-            log.error("刷新token异常",e);
+            log.error("refreshToken: ",e);
         }
         return false;
     }
@@ -69,7 +96,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
                 return true;
             }
         } catch (Exception e) {
-            log.error("刷新token异常",e);
+            log.error("removeToken: ",e);
         }
         return false;
     }

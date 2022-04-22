@@ -32,7 +32,7 @@ import org.springframework.context.annotation.DependsOn;
 public class RbacAutoConfiguration {
 
     public RbacAutoConfiguration(){
-        log.info("rbac-springboot-start loaded.");
+        log.info("rbac-springboot-starter loaded.");
     }
 
     @Autowired

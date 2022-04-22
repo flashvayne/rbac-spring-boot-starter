@@ -12,7 +12,9 @@ import java.util.Set;
  */
 public interface RbacTokenService {
 
-     RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO, Set<String> resources);
+     RbacTokenInfo generateTokenInfo(AuthUserDTO authUserDTO);
+
+     boolean doGenerateToken(RbacTokenInfo rbacTokenInfo);
 
      String generateTokenString(AuthUserDTO authUserDTO);
 

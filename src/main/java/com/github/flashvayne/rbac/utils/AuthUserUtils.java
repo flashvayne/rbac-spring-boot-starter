@@ -10,7 +10,7 @@ import com.github.flashvayne.rbac.dto.RbacTokenInfo;
  */
 public class AuthUserUtils {
 
-    private static final ThreadLocal<RbacTokenInfo> USER_INFO = new ThreadLocal<>();
+    protected static final ThreadLocal<RbacTokenInfo> USER_INFO = new ThreadLocal<>();
 
     public static void set(RbacTokenInfo user) {
         USER_INFO.set(user);

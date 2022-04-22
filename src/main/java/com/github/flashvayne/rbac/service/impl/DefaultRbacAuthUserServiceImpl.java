@@ -3,16 +3,12 @@ package com.github.flashvayne.rbac.service.impl;
 import com.github.flashvayne.rbac.dto.AuthResourceDTO;
 import com.github.flashvayne.rbac.dto.AuthRoleDTO;
 import com.github.flashvayne.rbac.dto.AuthUserDTO;
-import com.github.flashvayne.rbac.dto.RbacTokenInfo;
 import com.github.flashvayne.rbac.mapper.BaseRbacMapper;
 import com.github.flashvayne.rbac.service.RbacAuthUserService;
-import com.github.flashvayne.rbac.service.RbacTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 用户信息服务默认实现
@@ -26,9 +22,6 @@ public class DefaultRbacAuthUserServiceImpl implements RbacAuthUserService {
     @Autowired
     protected BaseRbacMapper userMapper;
 
-    @Autowired
-    protected RbacTokenService tokenService;
-
     @Override
     public boolean authentication(String userId, String password) {
         String originalPassword = userMapper.selectPassword(userId);
@@ -36,24 +29,15 @@ public class DefaultRbacAuthUserServiceImpl implements RbacAuthUserService {
     }
 
     @Override
-    public RbacTokenInfo generateTokenInfo(String userId) {
+    public AuthUserDTO getAuthUserInfo(String userId) {
         AuthUserDTO authUserDTO = userMapper.selectUser(userId);
         List<AuthRoleDTO> authRoleDTOs = userMapper.selectRole(userId);
         authUserDTO.setAuthRoleDTOList(authRoleDTOs);
-        Set<String> resources = new HashSet<>();
         for (AuthRoleDTO authRoleDTO : authRoleDTOs){
             List<AuthResourceDTO> authResourceDTOs = userMapper.selectResource(authRoleDTO.getId());
             authRoleDTO.setAuthResourceDTOList(authResourceDTOs);
-            for(int i= 0;i<authResourceDTOs.size();i++){
-                AuthResourceDTO authResourceDTO = authResourceDTOs.get(i);
-                if(authResourceDTO.getType() == (byte)1){
-                    resources.add(authResourceDTO.getUrl());
-                    authResourceDTOs.remove(i);
-                    i--;
-                }
-            }
         }
-        return tokenService.generateTokenInfo(authUserDTO,resources);
+        return authUserDTO;
     }
 
     @Override
