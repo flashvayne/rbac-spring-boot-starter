@@ -1,0 +1,44 @@
+{
+  "groups": [
+    {
+      "name": "rbac",
+      "type": "com.github.flashvayne.rbac.property.RbacProperties",
+      "sourceType": "com.github.flashvayne.rbac.property.RbacProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rbac.redis-key-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.github.flashvayne.rbac.property.RbacProperties",
+      "defaultValue": "rbac:",
+      "description": "token's prefix key in redis."
+    },
+    {
+      "name": "rbac.token-name",
+      "type": "java.lang.String",
+      "sourceType": "com.github.flashvayne.rbac.property.RbacProperties",
+      "defaultValue": "authorization",
+      "description": "token's key in http request header."
+    },
+    {
+      "name": "rbac.token-expire-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.github.flashvayne.rbac.property.RbacProperties",
+      "defaultValue": 7200,
+      "description": "token would be expired in ${rbac.token-expire-time} second if there is no operation using this token."
+    },{
+      "name": "rbac.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.flashvayne.rbac.property.RbacProperties",
+      "defaultValue": "true",
+      "deprecated": true,
+      "deprecation": {
+        "level": "error",
+        "reason": "rbac will be enabled automatically once the dependency is loaded."
+      },
+      "description": "whether to enable rbac component.(deprecated since v2.1.1)"
+    }
+  ],
+  "hints": []
+}
