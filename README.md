@@ -7,21 +7,33 @@
 
 ## 1.登录/Token生成：
 1.注入AuthUserService，调用authUserService.authentication(userId,password)方法可校验用户名密码，
-如检验通过，可通过authUserService.generateTokenInfo(userId)方法生成Token信息。实例代码如下：
+如检验通过，可通过rbacTokenService.generateTokenInfo(authUserInfo)方法生成Token信息,调用rbacTokenService.doGenerateToken(rbacTokenInfo)将token存入redis（或其他容器）。实例代码如下：
 ```java
 @Autowired
 private AuthUserService authUserService;
 
+@Autowired
+private RbacTokenService RbacTokenService;
+
 @PostMapping("/login")
-public void testlogin(String userId,String password) {
-    if(authUserService.authentication(userId,password)){
-        log.info("用户名密码校验通过");
-        RbacTokenInfo rbacTokenInfo = authUserService.generateTokenInfo(userId);
-        log.info("token生成: {}",rbacTokenInfo);
-    }else{
-        log.error("用户名或密码错误");
+    public ResponseModel login(@RequestBody @Valid LoginDTO loginDTO) {
+        if (!rbacAuthUserService.authentication(loginDTO.getUserId(), loginDTO.getPassword())) {
+            return ResponseModel.fail(401, "用户名或密码错误", null);
+        }
+        AuthUserDTO authUserInfo = rbacAuthUserService.getAuthUserInfo(loginDTO.getUserId());
+
+        if (authUserInfo.getStatus() == 1) {
+            return ResponseModel.fail("登录失败，账号已被锁定");
+        }
+        //如果用户/角色/资源/Token等信息有额外信息 可扩展到相应addition属性
+//        demoService.setAdditionProperties(authUserInfo);
+        RbacTokenInfo rbacTokenInfo = rbacTokenService.generateTokenInfo(authUserInfo);
+        if (rbacTokenService.doGenerateToken(rbacTokenInfo)) {
+            return ResponseModel.success("登录成功", rbacTokenInfo);
+        } else {
+            return ResponseModel.fail(500, "请求失败", null);
+        }
     }
-}
 ```
 
 ## 2.鉴权：
@@ -49,16 +61,15 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 <dependency>
     <groupId>io.github.flashvayne</groupId>
     <artifactId>rbac-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 2.配置项：
 ```yml
 rbac:
-  enable: true  #启动rbac-spring-boot-starter组件（默认false）
-  tokenExpireTime: 7200  #Token过期时间（默认7200s）
-  tokenName: authorization  #request header中token的变量名（默认authorization）
-  redisKeyPrefix: 'rbac:'  #token再redis中key的前缀（默认'rbac:'）
+  token-expire-time: 7200  #无操作2小时过期
+  token-name: authorization  #request header中token的变量名
+  redis-key-prefix: 'rbac:'
 spring:
   redis:  #配置Redis信息（本组件默认使用Redis作为Token存储的中间件）
     host: 127.0.0.1
@@ -84,6 +95,7 @@ public interface TestRbacMapper extends BaseRbacMapper {
 + 可通过继承RbacAuthorizationAspect修改拦截器的实现。
 + 可通过继承DefaultAuthUserServiceImpl或实现AuthUserService接口，来重写用户信息相关功能。
 + 可通过继承DefaultTokenServiceImpl或实现TokenService接口，来重写Token服务相关功能。
++ 用户/角色/资源/Token等DTO预留了addition属性，可扩展业务系统需要添加的信息（比如用户所属区县、角色所属机构等）
 
 # Tips：
 + 本项目使用Redis作为Token保存的中间件，此举是为了直接分布式多台机器共享Token，如开发者不需要多级部署，可重写Token服务相关功能，重写方法见上方章节“扩展性”
