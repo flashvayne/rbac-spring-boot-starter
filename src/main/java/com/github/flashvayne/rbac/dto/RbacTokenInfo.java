@@ -3,6 +3,7 @@ package com.github.flashvayne.rbac.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RbacTokenInfo implements Serializable {
 
     private String token;
@@ -25,6 +27,6 @@ public class RbacTokenInfo implements Serializable {
     private Object addition;
 
     //Set集合冗余用户拥有的资源 通过contains方法高效鉴权
-    @JsonIgnore
     private Set<String> resources;
+
 }
