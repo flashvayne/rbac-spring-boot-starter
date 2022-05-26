@@ -1,6 +1,6 @@
 package com.github.flashvayne.rbac.service.impl;
-
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.flashvayne.rbac.dto.AuthResourceDTO;
 import com.github.flashvayne.rbac.dto.AuthRoleDTO;
 import com.github.flashvayne.rbac.dto.AuthUserDTO;
@@ -26,6 +26,8 @@ import java.util.*;
 @Service
 @SuppressWarnings("unchecked")
 public class DefaultRbacTokenServiceImpl implements RbacTokenService {
+
+    private final ObjectMapper om = new ObjectMapper();
 
     @Autowired
     protected RedisTemplate redisTemplate;
@@ -65,8 +67,9 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
     public boolean doGenerateToken(RbacTokenInfo rbacTokenInfo) {
         try {
             redisTemplate.opsForValue().set(rbacProperties.getRedisKeyPrefix()+rbacTokenInfo.getToken(),
-                    JSONObject.toJSONString(rbacTokenInfo), Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
-            log.info("doGenerateToken success: {}", rbacTokenInfo);
+                    om.writerWithDefaultPrettyPrinter().writeValueAsString(rbacTokenInfo)
+                    , Duration.ofSeconds(rbacProperties.getTokenExpireTime()));
+            log.info("doGenerateToken : {}", rbacTokenInfo);
             return true;
         } catch (Exception e) {
             log.error("doGenerateToken: ",e);
@@ -104,7 +107,12 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
     @Override
     public RbacTokenInfo decodeTokenInfo(String token) {
         String tokenInfoJson = (String) redisTemplate.opsForValue().get(rbacProperties.getRedisKeyPrefix()+token);
-        RbacTokenInfo tokenInfo = JSONObject.parseObject(tokenInfoJson, RbacTokenInfo.class);
+        RbacTokenInfo tokenInfo;
+        try {
+            tokenInfo = om.readValue(tokenInfoJson, RbacTokenInfo.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         log.info("decodeTokenInfo: {}",token);
         return tokenInfo;
     }

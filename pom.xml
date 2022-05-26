@@ -6,7 +6,7 @@
 
     <groupId>io.github.flashvayne</groupId>
     <artifactId>rbac-spring-boot-starter</artifactId>
-    <version>2.1.2</version>
+    <version>2.2.0</version>
 
     <name>rbac-spring-boot-starter</name>
     <description>基于RBAC (Resource-Based Access Control) 的用户资源权限管理组件</description>
@@ -70,12 +70,6 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.83</version>
         </dependency>
 
         <dependency>
