@@ -61,7 +61,7 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 <dependency>
     <groupId>io.github.flashvayne</groupId>
     <artifactId>rbac-spring-boot-starter</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 2.配置项：
