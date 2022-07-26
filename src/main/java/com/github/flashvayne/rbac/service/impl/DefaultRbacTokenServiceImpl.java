@@ -81,7 +81,8 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
     @Override
     public boolean refreshToken(String token) {
         try {
-            if(redisTemplate.expire(rbacProperties.getRedisKeyPrefix()+token, Duration.ofSeconds(rbacProperties.getTokenExpireTime()))){
+            if(Boolean.TRUE.equals(redisTemplate.expire(rbacProperties.getRedisKeyPrefix() + token,
+                    Duration.ofSeconds(rbacProperties.getTokenExpireTime())))){
                 log.info("refreshToken: {}", token);
                 return true;
             }
@@ -94,7 +95,7 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
     @Override
     public boolean removeToken(String token) {
         try {
-            if(redisTemplate.delete(rbacProperties.getRedisKeyPrefix()+token)){
+            if(Boolean.TRUE.equals(redisTemplate.delete(rbacProperties.getRedisKeyPrefix() + token))){
                 log.info("removeToken: {}", token);
                 return true;
             }
@@ -106,27 +107,36 @@ public class DefaultRbacTokenServiceImpl implements RbacTokenService {
 
     @Override
     public RbacTokenInfo decodeTokenInfo(String token) {
-        String tokenInfoJson = (String) redisTemplate.opsForValue().get(rbacProperties.getRedisKeyPrefix()+token);
-        RbacTokenInfo tokenInfo;
-        try {
-            tokenInfo = om.readValue(tokenInfoJson, RbacTokenInfo.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        Object obj = redisTemplate.opsForValue().get(rbacProperties.getRedisKeyPrefix()+token);
+        if(obj == null){
+            log.error("decodeTokenInfo failed for token: {}, because it's not in redis",token);
+            return null;
         }
-        log.info("decodeTokenInfo: {}",token);
-        return tokenInfo;
+        String tokenInfoJson = (String) obj;
+        try {
+            RbacTokenInfo tokenInfo = om.readValue(tokenInfoJson, RbacTokenInfo.class);
+            log.info("decodeTokenInfo success for token: {}",token);
+            return tokenInfo;
+        } catch (Exception e) {
+            log.error("decodeTokenInfo failed for token :{}, from json: {}, exception",token,tokenInfoJson,e);
+            return null;
+        }
+
     }
 
     @Override
     public RbacTokenInfo decodeAndRefreshToken(String token) {
         RbacTokenInfo tokenInfo = this.decodeTokenInfo(token);
+        if(tokenInfo == null){
+            return null;
+        }
         refreshToken(token);
         return tokenInfo;
     }
 
     @Override
     public String generateTokenString(AuthUserDTO authUserDTO) {
-        return (UUID.randomUUID().toString()+UUID.randomUUID().toString())
+        return (UUID.randomUUID() +UUID.randomUUID().toString())
                 .replace("-","");
     }
 
