@@ -61,7 +61,7 @@ public void list(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
 <dependency>
     <groupId>io.github.flashvayne</groupId>
     <artifactId>rbac-spring-boot-starter</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
 </dependency>
 ```
 2.配置项：
@@ -78,14 +78,21 @@ spring:
 ```
 3.执行本项目的schema中对应的SQL脚本建Rbac基础表  
 4.将BaseRbacMapper加入Mybatis扫描：  
-可通过继承基础Mapper并加入Mybatis扫描。
-如果是MySQL数据源可直接将resources/mapper/RbacMapper-MySQL.xml复制到你的mapper-locations路径。
-其他数据源可参照RbacMapper-MySQL.xml进行实现
+1)可通过继承基础Mapper并加入Mybatis扫描。
 ```java
 @Mapper
 public interface TestRbacMapper extends BaseRbacMapper {
 }
 ```
+2)如果是MySQL数据源可直接将resources/mapper/RbacMapper-MySQL.xml复制到你的mapper-locations路径。  
+若无需自定义RbacMapper-MySQL.xml，可通过追加mapper-locations （如下方配置）直接扫描rbac jar包中的xml，这样就无需将xml复制到项目的mapper-locations路径下
+```yml
+mybatis:
+  mapper-locations:
+    - classpath*:/mapper/*.xml
+```
+其他数据源可参照RbacMapper-MySQL.xml进行实现
+
 
 # Demo项目：
 [Rbac-Demo](https://github.com/flashvayne/rbac-demo)
